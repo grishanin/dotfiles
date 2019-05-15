@@ -1,26 +1,56 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-source ~/.kubectl_aliases
 
-alias istioctl="/Users/mokeefe/istio-1.1.0-rc.5/bin/istioctl"
+source ~/.bash_profile
 
-export PATH=/Applications/Julia-1.0.app/Contents/Resources/julia/bin/:$PATH
-export PATH=/Users/mokeefe/google-cloud-sdk/bin/:$PATH
-export PATH=/Users/mokeefe/go/bin/:$PATH
-export PATH=$PATH:/Applications/MySQLWorkbench.app/Contents/MacOS
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/mokeefe/.oh-my-zsh"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-export PATH=$PATH:/Users/mokeefe/istio-1.0.6/bin/
+
+export PATH=$PATH:$HOME/.linkerd2/bin
+
+
+export GOPATH=~/go
+export PATH=$PATH:$GOPATH/bin
+
+# istio dev 
+export ISTIO=$GOPATH/src/istio.io # eg. ~/go/src/istio.io
+export HUB="docker.io/meganokeefe"
+export TAG=$USER
+export GITHUB_USER=askmeegs
+export KUBECONFIG=${HOME}/.kube/config
+
+kubectl () {
+    command kubectl $*
+    if [[ -z $KUBECTL_COMPLETE ]]
+    then
+        source <(command kubectl completion zsh)
+        KUBECTL_COMPLETE=1 
+    fi
+}
+
+# istioctl dev alias 
+alias di="/Users/mokeefe/go/out/darwin_amd64/release/istioctl"
+
+
+# kubernetes aliases 
+alias i="/Users/mokeefe/istio-1.1.4/bin/istioctl"
+alias istioctl="/Users/mokeefe/istio-1.1.4/bin/istioctl"
+export PATH=/Users/mokeefe/google-cloud-sdk/bin/:$PATH
+export PATH=/Users/mokeefe/go/bin:$PATH
 alias kubectl='/usr/local/bin/kubectl'
 alias inj='kubectl label namespace default istio-injection=enabled'
 alias uninj='kubectl label namespace default istio-injection=disabled --overwrite'
 alias kap='kubectl apply -f'
 alias kde='kubectl delete -f'
+alias pol='kubectl get policies'
 alias stei='stern -n istio-system'
-alias step='stern -c istio-proxy'
-alias lynx='/Applications/Lynxlet.app/Contents/Resources/lynx/bin/lynx'
 alias po='kubectl get pods'
 alias ipo='kubectl get pods -n istio-system'
+alias desc='kubectl describe pod'
+alias eit='kubectl exec -it'
+alias kdp='kubectl delete pod'
 alias sv='kubectl get svc'
 alias isv='kubectl get svc -n istio-system'
 alias ww='watch -n 1 kubectl get pods'
@@ -31,20 +61,13 @@ alias dr="kubectl get destinationrule"
 alias gw="kubectl get gateway"
 alias se="kubectl get serviceentry"
 
-alias icend="istioctl proxy-config endpoint"
-alias icboot="istioctl proxy-config bootstrap"
-alias icroute="istioctl proxy-config route" 
-alias iclist="istioctl proxy-config listener" 
-alias icclu="istioctl proxy-config cluster"
+alias traf="cd /Users/mokeefe/go/src/github.com/askmeegs/next19-istio-traffic"
+alias debu="cd /Users/mokeefe/go/src/github.com/askmeegs/next19-istio-debug"
 
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/mokeefe/.oh-my-zsh"
-
-export ghme=/Users/mokeefe/go/src/github.com/askmeegs
+alias ghme='cd /Users/mokeefe/go/src/github.com/askmeegs'
 alias mis='cd /Users/mokeefe/go/src/github.com/askmeegs/istio-samples'
 alias hip='cd /Users/mokeefe/go/src/github.com/GoogleCloudPlatform/microservices-demo'
-export ct="mokeefe.c.googlers.com"
-export GOPATH=/Users/mokeefe/go
+export PATH=$PATH:$GOPATH/bin
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -104,9 +127,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git
-)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -138,10 +159,11 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-source <(kubectl completion zsh)
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/mokeefe/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mokeefe/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/mokeefe/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mokeefe/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/mokeefe/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mokeefe/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/mokeefe/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mokeefe/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+
